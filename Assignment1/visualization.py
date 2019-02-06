@@ -108,32 +108,3 @@ plt.title('RLM alpha=0.001')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
-
-
-
-
-rlm_1 = linear_model.Ridge(alpha=0.1,normalize=False)
-rlm_5 = linear_model.Ridge(alpha=0.1,normalize=False)
-rlm_10 = linear_model.Ridge(alpha=0.1,normalize=False)
-rlm_20 = linear_model.Ridge(alpha=0.1,normalize=False)
-# Train the model using the training data 
-rlm_1.fit(x_poly_1, y_train)
-rlm_5.fit(x_poly_5, y_train)
-rlm_10.fit(x_poly_10, y_train)
-rlm_20.fit(x_poly_20, y_train)
-
-plt.plot(input_data, output_data, 'o', color='black')
-
-plt.plot(X_plot, rlm_1.intercept_ + X_plot*rlm_1.coef_[1],color='#faff00')
-
-plt.plot(X_plot, rlm_5.intercept_ + pow(X_plot,1)*rlm_5.coef_[1]  + pow(X_plot,2)*rlm_5.coef_[2]  + pow(X_plot,3)*rlm_5.coef_[3]  + pow(X_plot,4)*rlm_5.coef_[4]  + pow(X_plot,5)*rlm_5.coef_[5],color='#ffd000')
-
-plt.plot(X_plot, rlm_10.intercept_ + pow(X_plot,1)*rlm_10.coef_[1]  + pow(X_plot,2)*rlm_10.coef_[2]  + pow(X_plot,3)*rlm_10.coef_[3]  + pow(X_plot,4)*rlm_10.coef_[4]  + pow(X_plot,5)*rlm_10.coef_[5] + pow(X_plot,6)*rlm_10.coef_[6]  + pow(X_plot,7)*rlm_10.coef_[7]  + pow(X_plot,8)*rlm_10.coef_[8]  + pow(X_plot,9)*rlm_10.coef_[9]  + pow(X_plot,10)*rlm_10.coef_[10] ,color='#ff8800')
-
-plt.plot(X_plot, rlm_20.intercept_ + pow(X_plot,1)*rlm_20.coef_[1]  + pow(X_plot,2)*rlm_20.coef_[2]  + pow(X_plot,3)*rlm_20.coef_[3]  + pow(X_plot,4)*rlm_20.coef_[4]  + pow(X_plot,5)*rlm_20.coef_[5] + pow(X_plot,6)*rlm_20.coef_[6]  + pow(X_plot,7)*rlm_20.coef_[7]  + pow(X_plot,8)*rlm_20.coef_[8]  + pow(X_plot,9)*rlm_20.coef_[9]  + pow(X_plot,10)*rlm_20.coef_[10]  + pow(X_plot,11)*rlm_20.coef_[11]  + pow(X_plot,12)*rlm_20.coef_[12]  + pow(X_plot,13)*rlm_20.coef_[13]  + pow(X_plot,14)*rlm_20.coef_[14]  + pow(X_plot,15)*rlm_20.coef_[15] + pow(X_plot,16)*rlm_20.coef_[16]  + pow(X_plot,17)*rlm_20.coef_[17]  + pow(X_plot,18)*rlm_20.coef_[18]  + pow(X_plot,19)*rlm_20.coef_[19]  + pow(X_plot,20)*rlm_20.coef_[20] ,color='#ff0000')
-
-plt.title('RLM alpha=0.1')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.show()
-
