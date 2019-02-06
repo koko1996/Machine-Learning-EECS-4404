@@ -1,3 +1,10 @@
+###################################################################################################
+# EECS4404 Assignment 1                                                                           #
+# Filename: ERM.py                                                                                #   
+# Author: NANAH JI, KOKO                                                                          #
+# Email: koko96@my.yorku.com                                                                      #
+###################################################################################################
+
 import csv
 import numpy as np
 from sklearn import linear_model

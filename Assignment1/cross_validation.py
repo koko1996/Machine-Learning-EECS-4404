@@ -1,3 +1,10 @@
+###################################################################################################
+# EECS4404 Assignment 1                                                                           #
+# Filename: cross_validation.py                                                                   #   
+# Author: NANAH JI, KOKO                                                                          #
+# Email: koko96@my.yorku.com                                                                      #
+###################################################################################################
+
 import csv
 import random
 import numpy as np

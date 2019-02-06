@@ -1,3 +1,10 @@
+###################################################################################################
+# EECS4404 Assignment 1                                                                           #
+# Filename: visualization.py                                                                      #   
+# Author: NANAH JI, KOKO                                                                          #
+# Email: koko96@my.yorku.com                                                                      #
+###################################################################################################
+
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
