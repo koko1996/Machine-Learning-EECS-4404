@@ -9,7 +9,6 @@
 import csv
 import numpy as np
 from math import e
-from sklearn import linear_model
 import matplotlib.pyplot as plt
 
 # Read output data as floating point integers to the list
@@ -40,23 +39,23 @@ for i in range(1,21):
 
 # Train the data with different lambdas for regularization variable 
 for i in range(1,21):       
-    # create a regularized model with exp(-i) as the lambda (L2 regularizer)
-    model = linear_model.Ridge(alpha=pow(e,(-1 * i)),normalize=False)
-    # Train the model using the design matrix that we created
-    model.fit(x_train, y_train)
+   # create the regularization variable
+   alpha = pow(e,(-1 * i))
+   alpha_matrix = alpha * np.identity(x_train.shape[1])
 
-    SSE=0
-   # calculate of sum of square of errors for the model 
-    for x,y_true in zip(x_train,output_data):
-        x_pred = np.array([x])
-        y_pred = model.predict(x_pred)[0]
-        SSE +=  pow((y_pred- y_true),2)
-    SSE_GLOBAL.append(SSE)
+   # Train the model using the training data that we created with regularizer (i.e. get the weights)
+   w = np.linalg.solve( (np.matmul(x_train.T , x_train) + alpha_matrix ), np.matmul(x_train.T , y_train))
+   y_predict= np.matmul(x_train , w)
 
+   # get sum of square of errors
+   # divide the SSE by 2*N (according to slide 4 in lecture 6) 
+   SSE = float( np.matmul ( (y_predict - y_train).T,(y_predict - y_train) ) / (2*len(x_train)))
+   # add it to the global list
+   SSE_GLOBAL.append(SSE)
 
-plt.plot(list(range(-20,0)), SSE_GLOBAL[::-1], '-o', color='blue')
-plt.xlabel('x')
-plt.ylabel('y')
+plt.plot(list(range(-20,0)), SSE_GLOBAL, '-o', color='blue')
+plt.xlabel('ln(lambda)')
+plt.ylabel('SSE')
 plt.xticks(list(range(-20,0)))
 plt.show()
 
