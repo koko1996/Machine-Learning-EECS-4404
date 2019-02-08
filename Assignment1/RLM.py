@@ -53,7 +53,7 @@ for i in range(1,21):
    # add it to the global list
    SSE_GLOBAL.append(SSE)
 
-plt.plot(list(range(-20,0)), SSE_GLOBAL, '-o', color='blue')
+plt.plot(list(range(-20,0)), SSE_GLOBAL[::-1], '-o', color='blue')
 plt.xlabel('ln(lambda)')
 plt.ylabel('SSE')
 plt.xticks(list(range(-20,0)))
