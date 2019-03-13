@@ -1,7 +1,6 @@
 import csv
 import numpy as np
 from random import randint
-from pprint import pprint
 import matplotlib.pyplot as plt
 
 # binaryLoss returns the average binary loss on the data given the weight vector 
@@ -45,7 +44,6 @@ def softSVM (input_data, class_type):
         
 
 # Main
-
 with open('seeds_dataset.txt') as f:
     reader = csv.reader(f, delimiter='\t')
     rows = list(reader)
@@ -58,22 +56,24 @@ data=np.array([np.array(xi,dtype=float) for xi in data])
 N = len(data)
 ones = np.ones((N,1), dtype=float)
 data = np.append(ones, data, axis=1)
-print(data)
 
 binary_1 = softSVM(data, 1)
 plt.plot(list(range(1,len(binary_1)+1)), binary_1, color='blue')
 plt.xlabel('Iteration')
 plt.ylabel('binary_1 loss')
+plt.savefig('binary_loss_weight_1' + '.png')
 plt.show()
 
 binary_2 = softSVM(data, 2)
 plt.plot(list(range(1,len(binary_2)+1)), binary_2, color='blue')
 plt.xlabel('Iteration')
 plt.ylabel('binary_2 loss')
+plt.savefig('binary_loss_weight_2' + '.png')
 plt.show()
 
 binary_3 = softSVM(data, 3)
 plt.plot(list(range(1,len(binary_3)+1)), binary_3, color='blue')
 plt.xlabel('Iteration')
 plt.ylabel('binary_3 loss')
+plt.savefig('binary_loss_weight_3' + '.png')
 plt.show()

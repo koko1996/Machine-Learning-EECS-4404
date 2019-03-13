@@ -5,6 +5,12 @@ from pprint import pprint
 import matplotlib.pyplot as plt
 
 
+# multiClassPrediction returns the class of input vector based on one versus all method
+# @param feature_vector is a vector where the last column is the class (1,2 or 3)
+# and columns [0:n-1] is the feature input vector
+# @param weight_1 is the weight vector for seperating class 1 from classes 2 and 3
+# @param weight_2 is the weight vector for seperating class 2 from classes 1 and 3
+# @param weight_3 is the weight vector for seperating class 3 from classes 1 and 2
 def multiClassPrediction (feature_vector,  weight_1, weight_2, weight_3):
     result=0
     y_1 = weight_1.dot(feature_vector)
@@ -18,6 +24,13 @@ def multiClassPrediction (feature_vector,  weight_1, weight_2, weight_3):
         result = 3
     return result
 
+
+# binaryLoss returns the average binary loss on the data based on one versus all method
+# @param input_data is a matrix where the last column is the class (1,2 or 3)
+# and columns [0:n-1] is the feature vector
+# @param weight_1 is the weight vector for seperating class 1 from classes 2 and 3
+# @param weight_2 is the weight vector for seperating class 2 from classes 1 and 3
+# @param weight_3 is the weight vector for seperating class 3 from classes 1 and 2
 def binaryLoss( input_data, weight_1, weight_2, weight_3):
     loss = 0.0
     for row in input_data:
@@ -25,6 +38,15 @@ def binaryLoss( input_data, weight_1, weight_2, weight_3):
             loss = loss + 1.0
     return loss/len(input_data)
 
+
+# binaryLossClassType returns the average binary loss on the data given the weight vector 
+# and class type
+# @param input_data is a matrix where the last column is the class (1,2 or 3)
+# and columns [0:n-1] is the feature vector
+# @param weight is the weight vector for a hyperplane
+# @param class_type integer value (1,2 or 3) that assumes the input vector class 
+# type is 1 if it matches the given class_type otherwise it assumes the input vector
+# class type is -1
 def binaryLossClassType( input_data, weight, class_type ):
     loss = 0.0
     for row in input_data:
@@ -35,6 +57,16 @@ def binaryLossClassType( input_data, weight, class_type ):
             loss = loss + 1.0
     return loss/len(input_data)
 
+
+
+# softSVM returns weight vector for the maximum margin seperating hyperplane for 
+# a binary classifier
+# @param input_data is a matrix where the last column is the class (1,2 or 3)
+# and columns [0:n-1] is the feature vector
+# @param class_type integer value (1,2 or 3) that assumes the input vector class 
+# type is 1 if it matches the given class_type otherwise it assumes the input vector
+# class type is -1
+# @param iteration is the number of iterations to run the svm for
 def softSVM (input_data, class_type, iteration):
     w_best= np.zeros((1,np.shape(input_data)[1] - 1 ), dtype=float)    
     min_loss= float("inf")
@@ -61,18 +93,21 @@ with open('seeds_dataset.txt') as f:
     rows = list(reader)
 
 data = []
+
+# preprocess the data by removing empty elements and      
 for element in rows:
     next_row =  [i for i in element if i != '']
     data.append(next_row)
      
 np.set_printoptions(threshold=np.inf)
-     
-data=np.array([np.array(xi,dtype=float) for xi in data])
+data=np.array([np.array(xi,dtype=float) for xi in data])        
 N = len(data)
 ones = np.ones((N,1), dtype=float)
+# standardize the dataset to decrease the loss
 standardized_data =  (data[:,:-1] - np.mean(data[:,:-1],axis=0))  / np.std(data[:,:-1],axis=0)
 final_data = np.append(standardized_data, data[:,-1].reshape(N, 1), axis=1)
 final_data = np.append(ones, final_data, axis=1)
+
 
 for iteration in range(1,1000000):
     w_1 = softSVM(final_data, 1, iteration)

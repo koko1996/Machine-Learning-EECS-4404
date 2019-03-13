@@ -52,10 +52,13 @@ for lambd in [100.0,10.0,1.0,.1,.01,.001]:
     plt.xlabel('Iteration')
     plt.ylabel('Loss')
     plt.title('hinge loss with lambda ' + str(lambd))
+    plt.savefig('hinge_loss_with_lambda_'+ str(lambd) + '.png')
     plt.show()
+    
 
     plt.plot(list(range(1,len(binary)+1)), binary, color='blue')
     plt.xlabel('Iteration')
     plt.ylabel('Loss')
     plt.title('binary loss with lambda ' + str(lambd))
+    plt.savefig('binary_loss_with_lambda_'+ str(lambd) + '.png')
     plt.show()
