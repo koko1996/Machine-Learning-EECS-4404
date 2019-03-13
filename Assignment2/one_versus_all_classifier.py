@@ -39,8 +39,8 @@ def softSVM (input_data, class_type):
     w_best= np.zeros((1,np.shape(input_data)[1] - 1 ), dtype=float)    
     min_loss= float("inf")
     alpha = np.zeros((np.shape(input_data)[1] - 1 ), dtype=float)
-    for j in range(1,100000):
-        w = (0.01) * alpha
+    for j in range(1,50000):
+        w = (400001/j) * alpha
         index = randint(0, len(input_data)-1)
         t = input_data[index][-1]
         if input_data[index][-1] != class_type:
@@ -80,4 +80,7 @@ w_2 = softSVM(final_data, 2)
 w_3 = softSVM(final_data, 3)
 
 print("\n")
+print(w_1)
+print(w_2)
+print(w_3)
 print (binaryLoss(final_data,w_1,w_2,w_3))
