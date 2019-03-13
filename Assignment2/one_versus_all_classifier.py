@@ -36,11 +36,11 @@ def binaryLossClassType( input_data, weight, class_type ):
     return loss/len(input_data)
 
 def softSVM (input_data, class_type):
-    w_best= np.zeros((1,np.shape(input_data)[1] - 1 ), dtype=float)
+    w_best= np.zeros((1,np.shape(input_data)[1] - 1 ), dtype=float)    
     min_loss= float("inf")
-    alpha = np.zeros((1,np.shape(input_data)[1] - 1 ), dtype=float)
-    for j in range(1,10000000):
-        w = (10000.0/j) * alpha
+    alpha = np.zeros((np.shape(input_data)[1] - 1 ), dtype=float)
+    for j in range(1,100000):
+        w = (0.01) * alpha
         index = randint(0, len(input_data)-1)
         t = input_data[index][-1]
         if input_data[index][-1] != class_type:
@@ -51,14 +51,8 @@ def softSVM (input_data, class_type):
         if  curr_loss < min_loss:
             w_best = w
             min_loss = curr_loss
-    #     w_array.append(w)
-
-    # n = 100
-    # final_w = np.zeros((1,np.shape(input_data)[1] - 1 ), dtype=float)
-    # for i in range (1,n):    
-    #     final_w += w_array[len(w_array)-i]
-    # return final_w/n
     return w_best
+
 
 
 # main
@@ -71,13 +65,19 @@ for element in rows:
     next_row =  [i for i in element if i != '']
     data.append(next_row)
      
+np.set_printoptions(threshold=np.inf)
+     
 data=np.array([np.array(xi,dtype=float) for xi in data])
 N = len(data)
 ones = np.ones((N,1), dtype=float)
-data = np.append(ones, data, axis=1)
+standardized_data =  (data[:,:-1] - np.mean(data[:,:-1],axis=0))  / np.std(data[:,:-1],axis=0)
+final_data = np.append(standardized_data, data[:,-1].reshape(N, 1), axis=1)
+final_data = np.append(ones, final_data, axis=1)
 
 
-w_1 = softSVM(data, 1)
-w_2 = softSVM(data, 2)
-w_3 = softSVM(data, 3)
-print (binaryLoss(data,w_1,w_2,w_3))
+w_1 = softSVM(final_data, 1)
+w_2 = softSVM(final_data, 2)
+w_3 = softSVM(final_data, 3)
+
+print("\n")
+print (binaryLoss(final_data,w_1,w_2,w_3))
