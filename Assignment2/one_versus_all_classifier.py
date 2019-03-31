@@ -83,4 +83,4 @@ for iteration in range(1,1000000):
     print(w_1)
     print(w_2)
     print(w_3)
-    print ("loss: " + str(binaryLoss(final_data,w_1,w_2,w_3)))
+    print ("loss: " + str(binaryLoss(final_data,w_1,w_2,w_3)))   
