@@ -4,18 +4,12 @@ import random
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-def init_hard_coded(input_data,k):
-    return np.array([[-1.5,4.5],[3.5,4.5],[0,-4]])
-
-def init_rand_uniform(input_data,k):
-    centers = random.sample(list(input_data), k)
-    return np.array(centers)
 
 def init_max_dist(input_data,k):
     centers=[]
     index = random.randint(0, len(input_data)-1)
     centers.append(input_data[index])
-
+    
     for i in range(0,k-1):
         next_center = np.zeros((1,input_data.shape[1]), dtype=float)
         max_total_dist=-1
@@ -40,13 +34,13 @@ def cost(input_data, centers):
 def update_centers(input_data,number_of_centers):
     new_centers = np.zeros([number_of_centers,input_data.shape[1]-1])
     count_per_center =  np.zeros([number_of_centers,1])
+
     for point in input_data:
         new_centers[int(point[-1])] += point[:-1]
         count_per_center[int(point[-1])] += 1.0
 
     for i in range(0,len(new_centers)):
         new_centers[i] = new_centers[i] * (1/max(count_per_center[i],1))
-
     return new_centers
 
 
@@ -69,36 +63,37 @@ def update_clusters(input_data,centers):
 
 
 
-data = np.genfromtxt(open("threedpoints.txt", "rb"), delimiter=",", dtype="float")
-x,y,z = data.T
+init_data = np.genfromtxt(open("threedpoints.txt", "rb"), delimiter=",", dtype="float")
+x,y,z = init_data.T
 
+costs=[]
+for k in range(1,11):
+    number_of_clusters=k
+    init_centers = init_max_dist(init_data,number_of_clusters)
+    centers = init_centers
+    zeros = np.zeros((len(init_data),1), dtype=float)
+    data = np.append(init_data,zeros ,axis=1)
 
-
-number_of_clusters=4
-init_centers = init_max_dist(data,number_of_clusters)
-centers = init_centers
-
-zeros = np.zeros((len(data),1), dtype=float)
-data = np.append(data,zeros ,axis=1)
-
-prev_cost = float("inf")
-data = update_clusters(data,centers)
-cur_cost = cost(data,centers)
-while cur_cost < prev_cost:
-    centers = update_centers(data,number_of_clusters)
+    prev_cost = float("inf")
     data = update_clusters(data,centers)
-
-    prev_cost = cur_cost
     cur_cost = cost(data,centers)
 
+    while cur_cost < prev_cost:
+        centers = update_centers(data,number_of_clusters)
+        data = update_clusters(data,centers)
+        prev_cost = cur_cost
+        cur_cost = cost(data,centers)
 
-fig = plt.figure()
-ax = Axes3D(fig)
-ax.scatter(x, y, z,c = data[:,3])
+    costs.append(cur_cost)
+    fig = plt.figure()
+    ax = Axes3D(fig)
+    ax.scatter(x, y, z,c = data[:,3])
+    plt.show()
+
+plt.plot(list(range(1,len(costs)+1)), costs,color='blue')
+plt.xlabel('number of clusters')
+plt.ylabel('Cost')
+plt.title('Kmeans cost')
 plt.show()
-
-
-
-
 
 

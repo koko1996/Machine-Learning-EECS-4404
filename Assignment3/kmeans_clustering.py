@@ -4,7 +4,7 @@ import random
 import matplotlib.pyplot as plt
 
 def init_hard_coded(input_data,k):
-    return np.array([[-1.5,4.5],[3.5,4.5],[0,-4]])
+    return input_data[:k]
 
 def init_rand_uniform(input_data,k):
     centers = random.sample(list(input_data), k)
@@ -46,8 +46,6 @@ def update_centers(input_data,number_of_centers):
 
     for i in range(0,len(new_centers)):
         new_centers[i] = new_centers[i] * (1/max(count_per_center[i],1))
-    print("number_of_centers")
-    print(count_per_center)
     return new_centers
 
 
@@ -70,8 +68,10 @@ def update_clusters(input_data,centers):
 
 
 
-number_of_clusters=4
+number_of_clusters=3
 data = np.genfromtxt(open("twodpoints.txt", "rb"), delimiter=",", dtype="float")
+# init_centers = init_hard_coded(data,number_of_clusters)
+# init_centers = init_rand_uniform(data,number_of_clusters)
 init_centers = init_max_dist(data,number_of_clusters)
 centers = init_centers
 
@@ -90,11 +90,9 @@ while cur_cost < prev_cost:
     prev_cost = cur_cost
     cur_cost = cost(data,centers)
 
-print(data)
-print(centers)
-print(init_centers)
+output = [int(x)+1 for x in data[:,2]]
+print(output)
 
-x,y = init_centers.T
 
 plt.scatter(data[:,0],data[:,1],c=data[:,2])
 plt.scatter(init_centers[:,0],init_centers[:,1], c="black")

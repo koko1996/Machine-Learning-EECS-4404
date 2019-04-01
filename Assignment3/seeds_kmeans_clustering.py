@@ -3,8 +3,9 @@ import numpy as np
 import random 
 import matplotlib.pyplot as plt
 
+
 def init_hard_coded(input_data,k):
-    return np.array([[-1.5,4.5],[3.5,4.5],[0,-4]])
+    return input_data[:k]
 
 def init_rand_uniform(input_data,k):
     centers = random.sample(list(input_data), k)
@@ -14,7 +15,7 @@ def init_max_dist(input_data,k):
     centers=[]
     index = random.randint(0, len(input_data)-1)
     centers.append(input_data[index])
-
+    
     for i in range(0,k-1):
         next_center = np.zeros((1,input_data.shape[1]), dtype=float)
         max_total_dist=-1
@@ -37,29 +38,15 @@ def cost(input_data, centers):
     return cost
 
 def update_centers(input_data,number_of_centers):
-    # print("input_data.shape[1]-1")
-    # print (input_data.shape[1]-1)
     new_centers = np.zeros([number_of_centers,input_data.shape[1]-1])
     count_per_center =  np.zeros([number_of_centers,1])
-    # print("new_centers")
-    # print(new_centers)
+
     for point in input_data:
-        # print(point)
-        # print(point[-1])
-        # print(point[:-1])
-        # print(new_centers[int(point[-1])])
         new_centers[int(point[-1])] += point[:-1]
         count_per_center[int(point[-1])] += 1.0
 
-    # print("new_centers")
-    # print(new_centers)
-    # print("count_per_center")
-    # print(count_per_center)
     for i in range(0,len(new_centers)):
-        # print(new_centers[i])
-        # print((1/max(count_per_center[i],1)))
         new_centers[i] = new_centers[i] * (1/max(count_per_center[i],1))
-
     return new_centers
 
 
@@ -79,7 +66,6 @@ def update_clusters(input_data,centers):
     for point in input_data:
         point[-1]=map_point_to_center(point,centers)
     return input_data
-
 
 
 with open('seeds_dataset.txt') as f:
@@ -113,8 +99,12 @@ while cur_cost < prev_cost:
     prev_cost = cur_cost
     cur_cost = cost(data,centers)
 
-final_clustering=data[:,-1]
+final_clustering= [int(x)+1 for x in data[:,-1]]
 
+empirical_loss = np.count_nonzero(final_clustering - original_clustering) / float(len(data))
 
 print(original_clustering)
 print(final_clustering)
+print(final_clustering - original_clustering)
+print(empirical_loss)
+
