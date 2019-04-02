@@ -73,12 +73,6 @@ def update_clusters(input_data,centers):
     return input_data
 
 
-
-
-
-
-
-
 # main method
 
 ### read and preprocess the data
@@ -127,8 +121,11 @@ final_clustering= [int(x)+1 for x in data[:,-1]]
 # empirical_loss = np.count_nonzero(final_clustering - original_clustering) / float(len(data))
 # print(empirical_loss)
 
+
+# size of each cluster since the all of them have the same size in this case
 chunk_size = len(original_clustering) / number_of_clusters
 
+# figure out the id that matches cluster id 1 in the original data
 counts = collections.Counter(final_clustering[:chunk_size])
 new_list = sorted(final_clustering[:chunk_size], key=counts.get, reverse=True) 
 print(new_list)
@@ -136,7 +133,7 @@ values = new_list
 clust_id_1 = values[0] 
 print (clust_id_1) 
 
-
+# figure out the id that matches cluster id 2 in the original data
 counts = collections.Counter(final_clustering[chunk_size:2*chunk_size])
 new_list = sorted(final_clustering[chunk_size:2*chunk_size], key=counts.get, reverse=True) 
 print(new_list)
@@ -149,6 +146,7 @@ for i in values:
 print (clust_id_2) 
 
 
+# figure outt the id that matches cluster id 3 in the original data
 counts = collections.Counter(final_clustering[2*chunk_size:3*chunk_size])
 new_list = sorted(final_clustering[2*chunk_size:3*chunk_size], key=counts.get, reverse=True) 
 print(new_list)
@@ -157,12 +155,10 @@ clust_id_3 = 0
 for i in values:
     if i != clust_id_1 and i != clust_id_2:
         clust_id_3 = i
-
 print (clust_id_3) 
 
-
+# modify the cluster ids 
 modified_final_clustering = []
-
 for i in final_clustering:
     if i == clust_id_1:
         modified_final_clustering.append(1)
@@ -171,11 +167,5 @@ for i in final_clustering:
     else :
         modified_final_clustering.append(3)
 
-print(final_clustering)
-print
-print(modified_final_clustering)
-print
-print(original_clustering)
-print
 empirical_loss = np.count_nonzero(modified_final_clustering - original_clustering) / float(len(data))
 print(empirical_loss)

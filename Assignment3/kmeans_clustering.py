@@ -116,11 +116,6 @@ while cur_cost < prev_cost:
 # that assigns cluster from 0 to k-1
 output = [int(x)+1 for x in data[:,2]]
 print(output)
-print( init_centers)
-# plot the clustering
-plt.scatter(data[:,0],data[:,1],c=data[:,2])
-plt.scatter(init_centers[:,0],init_centers[:,1], c="black")
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.show()
+
+
 
