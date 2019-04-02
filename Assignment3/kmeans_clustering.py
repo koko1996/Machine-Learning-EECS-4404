@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 # initialize centers to first k data points
 def init_hard_coded(input_data,k):
+    # return np.array([input_data[34],input_data[66], input_data[11]])
     return input_data[:k]
 
 # initialize centers to k data points that are selected
@@ -44,7 +45,7 @@ def cost(input_data, centers):
     cost = 0.0
     for point in input_data:
         # dist from point to it's center
-        cost += np.linalg.norm(point[:-1]-centers[int(point[-1])])
+        cost += (np.linalg.norm(point[:-1]-centers[int(point[-1])]) ** 2)
     return cost
 
 # returns the new centers for each cluster by computing the mean of every cluster as a newcenter
@@ -89,8 +90,8 @@ data = np.genfromtxt(open("twodpoints.txt", "rb"), delimiter=",", dtype="float")
 
 # initialize the centers from original data
 # init_centers = init_hard_coded(data,number_of_clusters)
-# init_centers = init_rand_uniform(data,number_of_clusters)
-init_centers = init_max_dist(data,number_of_clusters)
+init_centers = init_rand_uniform(data,number_of_clusters)
+# init_centers = init_max_dist(data,number_of_clusters)
 centers = init_centers
 
 # append the column that identifies the clusters that each point belongs to
@@ -115,7 +116,7 @@ while cur_cost < prev_cost:
 # that assigns cluster from 0 to k-1
 output = [int(x)+1 for x in data[:,2]]
 print(output)
-
+print( init_centers)
 # plot the clustering
 plt.scatter(data[:,0],data[:,1],c=data[:,2])
 plt.scatter(init_centers[:,0],init_centers[:,1], c="black")

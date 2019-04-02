@@ -36,7 +36,7 @@ def cost(input_data, centers):
     cost = 0.0
     for point in input_data:
         # dist from point to it's center
-        cost += np.linalg.norm(point[:-1]-centers[int(point[-1])])
+        cost += (np.linalg.norm(point[:-1]-centers[int(point[-1])]) ** 2)
     return cost
 
 # returns the new centers for each cluster by computing the mean of every cluster as a newcenter
@@ -121,7 +121,7 @@ for k in range(1,11):
 plt.plot(list(range(1,len(costs)+1)), costs,color='blue')
 plt.xlabel('number of clusters')
 plt.ylabel('Cost')
-plt.title('Kmeans cost')
+plt.title('Kmeans cost of seeds dataset')
 plt.show()
 
 

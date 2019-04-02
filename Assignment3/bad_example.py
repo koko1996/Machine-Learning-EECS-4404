@@ -44,7 +44,7 @@ def cost(input_data, centers):
     cost = 0.0
     for point in input_data:
         # dist from point to it's center
-        cost += np.linalg.norm(point[:-1]-centers[int(point[-1])])
+        cost += (np.linalg.norm(point[:-1]-centers[int(point[-1])]) ** 2)
     return cost
 
 # returns the new centers for each cluster by computing the mean of every cluster as a newcenter
@@ -88,9 +88,9 @@ number_of_clusters=2
 data = np.genfromtxt(open("twodpoints_a.txt", "rb"), delimiter=",", dtype="float")
 
 # initialize the centers from original data
-init_centers = init_hard_coded(data,number_of_clusters)
+# init_centers = init_hard_coded(data,number_of_clusters)
 # init_centers = init_rand_uniform(data,number_of_clusters)
-# init_centers = init_max_dist(data,number_of_clusters)
+init_centers = init_max_dist(data,number_of_clusters)
 centers = init_centers
 
 # append the column that identifies the clusters that each point belongs to
@@ -122,7 +122,7 @@ print(output)
 
 # plot the clustering
 plt.scatter(data[:,0],data[:,1],c=data[:,2])
-plt.scatter(centers[:,0],centers[:,1], c="black")
+plt.scatter(centers[:,0],centers[:,1], marker='x', c="black")
 plt.xlabel('X')
 plt.ylabel('Y')
 plt.show()

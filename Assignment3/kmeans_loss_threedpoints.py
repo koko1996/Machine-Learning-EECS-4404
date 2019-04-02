@@ -28,7 +28,7 @@ def cost(input_data, centers):
     cost = 0.0
     for point in input_data:
         # dist from point to it's center
-        cost += np.linalg.norm(point[:-1]-centers[int(point[-1])])
+        cost += (np.linalg.norm(point[:-1]-centers[int(point[-1])]) ** 2)
     return cost
 
 def update_centers(input_data,number_of_centers):
@@ -93,7 +93,7 @@ for k in range(1,11):
 plt.plot(list(range(1,len(costs)+1)), costs,color='blue')
 plt.xlabel('number of clusters')
 plt.ylabel('Cost')
-plt.title('Kmeans cost')
+plt.title('Kmeans cost of threedpoints')
 plt.show()
 
 
